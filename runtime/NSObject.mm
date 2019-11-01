@@ -1744,6 +1744,7 @@ callAlloc(Class cls, bool checkNil, bool allocWithZone=false)
         // add it to canAllocFast's summary
         if (fastpath(cls->canAllocFast())) {
             // No ctors, raw isa, etc. Go straight to the metal.
+            //没有C++构造函数且不需要实例原始Isa，并且实例大小与移位后的大小匹配
             bool dtor = cls->hasCxxDtor();
             id obj = (id)calloc(1, cls->bits.fastInstanceSize());
             if (slowpath(!obj)) return callBadAllocHandler(cls);
