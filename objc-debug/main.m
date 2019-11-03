@@ -6,10 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "XXObject.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        NSObject *obj = [NSObject new];
+        XXObject *obj = [XXObject new];
+        XXObject *obj2 = [[XXObject alloc] init];
         NSLog(@"obj:%@", obj);
     }
     return 0;
