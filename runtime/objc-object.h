@@ -151,14 +151,19 @@ objc_object::isExtTaggedPointer()
 inline Class 
 objc_object::ISA() 
 {
-    assert(!isTaggedPointer()); 
+    assert(!isTaggedPointer());
+    
 #if SUPPORT_INDEXED_ISA
+    // 将类存储在isa字段中，作为类表的索引。 __ARM_ARCH_7K__ >= 2  ||  (__arm64__ && !__LP64__)
+    // 当平台架构大于7K或是ARM64平台，但指针不是64位时
     if (isa.nonpointer) {
         uintptr_t slot = isa.indexcls;
         return classForIndex((unsigned)slot);
     }
     return (Class)isa.bits;
 #else
+    // 不支持isa作为索引
+    // 将bits通过位掩码运算转为Class
     return (Class)(isa.bits & ISA_MASK);
 #endif
 }
